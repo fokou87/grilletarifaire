@@ -1,0 +1,7 @@
+{
+  "name": "cordonne",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
