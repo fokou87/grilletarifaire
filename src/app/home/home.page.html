@@ -1,20 +1,72 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-buttons slot ="start">
+      <ion-menu-button menu="first" color="primary"></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">DigiLocalisation</ion-title>
+    <img slot="end" class="imagelogo" src="assets/img/location.svg">
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-grid class="ion-text-center">
+    <img src="assets/img/map.svg">
+    <ion-card>
+      <ion-item *ngIf="adresseService.pays">
+        <ion-label>Choisir la ville</ion-label>
+        <ion-select interface="popover" [(ngModel)]="ville">
+          <ion-select-option *ngFor="let v of adresseService.pays.villes" [value]="v">{{v.libelle}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item *ngIf="ville">
+        <ion-label>Choisir le quartier</ion-label>
+        <ion-select interface="popover" [(ngModel)]="quartier">
+          <ion-select-option *ngFor="let q of ville.quartiers" [value]="q">{{q.libelle}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-list>
+        <ion-item *ngIf="quartier">
+          <ion-label>Choisir le secteur</ion-label>
+          <ion-select interface="popover" [(ngModel)]="secteur">
+            <ion-select-option *ngFor="let s of quartier.secteurs" [value]="s">{{s.libelle}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item *ngIf="positionSecteur">
+          <ion-label>Choisir le point specifique</ion-label>
+          <ion-select interface="popover" [(ngModel)]="pointspecifique">
+            <ion-select-option *ngFor="let p of secteur.pointspecifiques" [value]="p">{{p.libelle}}</ion-select-option>
+          </ion-select>
+        </ion-item>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+        <ion-row class="ion-text-center ion-align-items-center" *ngIf="secteur">
+          <ion-col>
+            <ion-button expand="full" color="primary" (click)="getLocation()">Secteur</ion-button>
+          </ion-col>
+          <ion-col *ngIf="pointspecifique">
+            <ion-button expand="full" color="success" (click)="getLocationPointSpecifi()">Point specifique</ion-button>
+          </ion-col>
+        </ion-row>
+
+      </ion-list>
+
+
+      <ion-grid>
+        <ion-card class="ion-text-center" *ngIf="secteur && positionSecteur">
+          <p>Les cordonnées de {{secteur.libelle}}</p>
+          <p>Latitude: {{positionSecteur.latitude}}</p>
+          <p>Longitude: {{positionSecteur.longitude}}</p>
+          <ion-card-subtitle *ngIf="positionPoint">
+            <p>Les cordonnées de {{pointspecifique.libelle}}</p>
+            <p>Latitude: {{positionPoint.latitude}}</p>
+            <p>Longitude: {{positionPoint.longitude}}</p>
+          </ion-card-subtitle>
+        </ion-card>
+      </ion-grid>
+    </ion-card>
+
+  </ion-grid>
+
 </ion-content>
+<ion-footer>
+  <ion-label>By DigiPlus</ion-label>
+</ion-footer>

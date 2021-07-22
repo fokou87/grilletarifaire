@@ -1,0 +1,11 @@
+<ion-menu menuId="first" contentId="main">
+  <ion-content>
+    <ion-menu-toggle  *ngFor="let m of menus">
+      <ion-item   (click)="onMenuAction(m.url)">
+        <img slot="start" src="assets/img/{{m.icon}}.svg" alt="tt">
+        <label>{{m.title}}</label>
+      </ion-item>
+    </ion-menu-toggle>
+  </ion-content>
+</ion-menu>
+<ion-router-outlet id="main" ></ion-router-outlet>

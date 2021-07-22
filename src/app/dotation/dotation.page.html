@@ -1,0 +1,80 @@
+<ion-header>
+  <ion-toolbar class="ion-text-center">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">Grille tarifaire</ion-title>
+    <img slot="end" class="imagelogo" src="assets/img/grille.svg">
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-segment class="segment-wrapper" (ionChange)="segmentChanged($event)" [(ngModel)]="segment">
+    <ion-segment-button value="0">
+      <ion-label>Ajouter</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="1">
+      <ion-label>All</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <ion-slides class="slides-wrapper" #slides (ionSlideDidChange)="slideChanged()">
+    <ion-slide>
+      <ion-grid>
+        <form [formGroup]="form">
+          <ion-list lines="none" class="ion-margin ion-text-center">
+            <ion-item class="ion-margin-vertical">
+              <ion-input formControlName="libelle" placeholder="Enter le libelle"></ion-input>
+            </ion-item>
+            <ion-text class="ion-text-left" color="danger"
+                      *ngIf="!form.get('libelle').valid && form.get('libelle').touched">
+              <p class="error">*Le libellé est obligatoire</p>
+            </ion-text>
+            <ion-item class="ion-margin-vertical">
+              <ion-input formControlName="prix" placeholder="Enter le prix"></ion-input>
+            </ion-item>
+            <ion-text class="ion-text-left" color="danger" *ngIf="!form.get('prix').valid && form.get('prix').touched">
+              <p class="error">*Le Prix est obligatoire</p>
+            </ion-text>
+            <ion-item class="ion-margin-vertical">
+              <ion-input formControlName="description" placeholder="Enter la Description"></ion-input>
+            </ion-item>
+            <ion-text class="ion-text-left" color="danger"
+                      *ngIf="!form.get('description').valid && form.get('description').touched">
+              <p class="error">*Le Description est obligatoire</p>
+            </ion-text>
+            <ion-item class="ion-margin-vertical">
+              <ion-input formControlName="distancemin" placeholder="Enter la Distance Minimale en Km"></ion-input>
+            </ion-item>
+            <ion-text class="ion-text-left" color="danger"
+                      *ngIf="!form.get('distancemin').valid && form.get('distancemin').touched">
+              <p class="error">*Le distance minimale est obligatoire</p>
+            </ion-text>
+            <ion-item class="ion-margin-vertical">
+              <ion-input formControlName="distancemax" placeholder="Enter la Distance Maximale en Km"></ion-input>
+            </ion-item>
+            <ion-text class="ion-text-left" color="danger"
+                      *ngIf="!form.get('distancemax').valid && form.get('distancemax').touched">
+              <p class="error">*Le distance maximale est obligatoire</p>
+            </ion-text>
+            <ion-button color="primary" expand="full" (click)="onSubmit()">Enregister</ion-button>
+          </ion-list>
+        </form>
+      </ion-grid>
+    </ion-slide>
+    <ion-slide>
+      <ion-grid class="ion-text-center" *ngIf="grilletarifaireService.grillTarifaires">
+        <ion-list *ngFor="let e of grilletarifaireService.grillTarifaires">
+          <ion-item>
+            <ion-label>
+              <strong class="colortitre">{{e.libelle}}</strong>
+              <p>Description: {{e.description}}</p>
+              <p>Prix: {{e.prix}}</p>
+              <p>Distance minimale: {{e.distancemin}} Km</p>
+              <p>Distance maximale: {{e.distancemax}} Km</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-grid>
+    </ion-slide>
+  </ion-slides>
+</ion-content>
