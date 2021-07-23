@@ -29,36 +29,32 @@ export class HomePage {
   async presentToast(message:string) {
     const toast = await this.toastController.create({
       message: message,
-      duration: 3000
+      duration: 3000,
+      position:"top"
     });
     toast.present();
   }
-  getLocation() {
+  getsecteur(event:any) {
+    this.secteur=event.target.value;
+    console.log(event.target.value);
     this.loadingController.create({
       cssClass:'loader',
       message:'chargement des localisations'
     }).then(l=> {
-      l.present();
+        l.present();
       Geolocation.getCurrentPosition().then(p => {
         this.positionSecteur = new Positions();
         this.positionSecteur.latitude = p.coords.latitude;
         this.positionSecteur.longitude = p.coords.longitude;
-        this.adresseService.addCordonnerSecteur(this.secteur.idsecteur, this.positionSecteur)
-          .subscribe(
-            data => {
-              l.dismiss();
-              this.presentToast("La position de "+data.libelle+" a été enregistré")
-            },error => {
-              l.dismiss();
-              this.presentToast(error.error.message)
-            }
-          )
+        l.dismiss();
       });
     }
     )
   }
 
-  getLocationPointSpecifi() {
+  getPointSpecifi(event:any) {
+    this.pointspecifique=event.target.value;
+    console.log(event.target.value);
     this.loadingController.create({
       cssClass:'loader',
       message:'chargement des localisations'
@@ -68,6 +64,40 @@ export class HomePage {
           this.positionPoint = new Positions();
           this.positionPoint.latitude = p.coords.latitude;
           this.positionPoint.longitude = p.coords.longitude;
+          l.dismiss();
+        });
+      }
+    )
+  }
+
+
+
+  saveSecteur() {
+    this.loadingController.create({
+      cssClass:'loader',
+      message:'chargement des localisations'
+    }).then(l=> {
+          l.present();
+          this.adresseService.addCordonnerSecteur(this.secteur.idsecteur, this.positionSecteur)
+            .subscribe(
+              data => {
+                l.dismiss();
+                this.presentToast("La position de "+data.libelle+" a été enregistré")
+              },error => {
+                l.dismiss();
+                this.presentToast(error.error.message)
+              }
+            )
+      }
+    )
+  }
+
+  savePointSpecifi() {
+    this.loadingController.create({
+      cssClass:'loader',
+      message:'chargement des localisations'
+    }).then(l=> {
+        l.present();
           this.adresseService.addCordonnerPointSpe(this.pointspecifique.idpointspecifique, this.positionPoint)
             .subscribe(
               data => {
@@ -78,7 +108,6 @@ export class HomePage {
                 l.dismiss();
               }
             )
-        });
       }
     )
   }

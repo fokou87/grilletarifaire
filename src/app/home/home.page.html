@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot ="start">
+    <ion-buttons slot="start">
       <ion-menu-button menu="first" color="primary"></ion-menu-button>
     </ion-buttons>
     <ion-title class="ion-text-center">DigiLocalisation</ion-title>
@@ -10,7 +10,39 @@
 
 <ion-content [fullscreen]="true">
   <ion-grid class="ion-text-center">
-    <img src="assets/img/map.svg">
+    <img *ngIf="!secteur" src="assets/img/map.svg">
+    <ion-grid>
+      <ion-card *ngIf="secteur">
+        <ion-card-header>
+          <img style="width: 100px" src="assets/img/map.svg">
+        </ion-card-header>
+        <ion-card-content >
+
+          <ion-row>
+            <strong>Secteur: {{secteur.libelle}}</strong>
+            <ion-col *ngIf="positionSecteur" class="ion-text-left" size="9">
+              <ion-label>
+                <p>Latitude: {{positionSecteur.latitude}}</p>
+                <p>Longitude: {{positionSecteur.longitude}}</p>
+              </ion-label>
+            </ion-col>
+            <ion-col size="3">
+              <ion-button class="ion-margin-top"  color="primary" size="small" (click)="saveSecteur()">Valider</ion-button>
+            </ion-col>
+          </ion-row>
+          <ion-row *ngIf="positionPoint">
+            <strong>Point specifique: {{pointspecifique.libelle}}</strong>
+            <ion-col  class="ion-text-left" size="9">
+              <p>Latitude: {{positionPoint.latitude}}</p>
+              <p>Longitude: {{positionPoint.longitude}}</p>
+            </ion-col>
+            <ion-col size="3">
+              <ion-button class="ion-margin-top" size="small" color="success" (click)="savePointSpecifi()">Valider</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-card-content>
+      </ion-card>
+    </ion-grid>
     <ion-card>
       <ion-item *ngIf="adresseService.pays">
         <ion-label>Choisir la ville</ion-label>
@@ -27,45 +59,19 @@
       <ion-list>
         <ion-item *ngIf="quartier">
           <ion-label>Choisir le secteur</ion-label>
-          <ion-select interface="popover" [(ngModel)]="secteur">
+          <ion-select interface="popover" (ionChange)="getsecteur($event)">
             <ion-select-option *ngFor="let s of quartier.secteurs" [value]="s">{{s.libelle}}</ion-select-option>
           </ion-select>
         </ion-item>
         <ion-item *ngIf="positionSecteur">
           <ion-label>Choisir le point specifique</ion-label>
-          <ion-select interface="popover" [(ngModel)]="pointspecifique">
+          <ion-select interface="popover" (ionChange)="getPointSpecifi($event)">
             <ion-select-option *ngFor="let p of secteur.pointspecifiques" [value]="p">{{p.libelle}}</ion-select-option>
           </ion-select>
         </ion-item>
-
-        <ion-row class="ion-text-center ion-align-items-center" *ngIf="secteur">
-          <ion-col>
-            <ion-button expand="full" color="primary" (click)="getLocation()">Secteur</ion-button>
-          </ion-col>
-          <ion-col *ngIf="pointspecifique">
-            <ion-button expand="full" color="success" (click)="getLocationPointSpecifi()">Point specifique</ion-button>
-          </ion-col>
-        </ion-row>
-
       </ion-list>
-
-
-      <ion-grid>
-        <ion-card class="ion-text-center" *ngIf="secteur && positionSecteur">
-          <p>Les cordonnées de {{secteur.libelle}}</p>
-          <p>Latitude: {{positionSecteur.latitude}}</p>
-          <p>Longitude: {{positionSecteur.longitude}}</p>
-          <ion-card-subtitle *ngIf="positionPoint">
-            <p>Les cordonnées de {{pointspecifique.libelle}}</p>
-            <p>Latitude: {{positionPoint.latitude}}</p>
-            <p>Longitude: {{positionPoint.longitude}}</p>
-          </ion-card-subtitle>
-        </ion-card>
-      </ion-grid>
     </ion-card>
-
   </ion-grid>
-
 </ion-content>
 <ion-footer>
   <ion-label>By DigiPlus</ion-label>

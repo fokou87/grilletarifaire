@@ -18,7 +18,8 @@ export class CotationService{
   async presentToast(message:string) {
     const toast = await this.toastController.create({
       message: message,
-      duration: 3000
+      duration: 3000,
+      position:"top"
     });
     toast.present();
   }
