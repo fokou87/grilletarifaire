@@ -57,7 +57,8 @@ export class HomePage {
     console.log(event.target.value);
     this.loadingController.create({
       cssClass:'loader',
-      message:'chargement des localisations'
+      message:'chargement des localisations',
+      duration:30000,
     }).then(l=> {
         l.present();
         Geolocation.getCurrentPosition().then(p => {
@@ -65,7 +66,7 @@ export class HomePage {
           this.positionPoint.latitude = p.coords.latitude;
           this.positionPoint.longitude = p.coords.longitude;
           l.dismiss();
-        });
+        }).catch(e=>this.presentToast(e));
       }
     )
   }

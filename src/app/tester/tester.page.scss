@@ -16,8 +16,8 @@ ion-select::part(placeholder) {
  * https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements
  */
 ion-select::part(placeholder)::first-letter {
-  font-size: 24px;
-  font-weight: 500;
+  font-size: 18px;
+  font-weight: normal;
 }
 
 /* Set the text color */

@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar  class="ion-text-center">
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-menu-button menu="first" color="primary"></ion-menu-button>
     </ion-buttons>
     <ion-title class="ion-text-center">Distance/Prix</ion-title>
     <img slot="end" class="imagelogo" src="assets/img/invoice.svg">
@@ -17,7 +17,7 @@
       <ion-col size="7">
         <ion-label>
           <p>Lieu: {{cotationService.cotation.lieux}}</p>
-          <p>Distance: {{cotationService.cotation.distance}} Km</p>
+          <p>Distance: {{cotationService.cotation.distance.toFixed(4)}} Km</p>
           <p>Prix: {{cotationService.cotation.prix}} Fcfa</p>
           <p>Date: {{cotationService.cotation.date | date:"dd/MM/yyyy HH:mm"}}</p>
         </ion-label>

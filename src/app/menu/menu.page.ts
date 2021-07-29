@@ -8,11 +8,11 @@ import {Router} from "@angular/router";
 })
 export class MenuPage implements OnInit {
   public menus=[
-    {title: "Accueil ", url: "/home", icon: "caisse"},
-    {title: "Tester", url: "/menu/tester", icon: "priority"},
+    {title: "Enregistrement ", url: "/menu/home", icon: "caisse"},
+    {title: "Distance/prix", url: "/menu/tester", icon: "priority"},
     {title: "Grille tarifaire", url: "/menu/dotation", icon: "grille"},
   ];
-  constructor(private router: Router,) { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
